@@ -69,12 +69,17 @@ class DoublyLinkedList:
     """
 
     def remove_from_head(self):
+        # old head is head
         old_head = self.head
+        # new head is the old head's next
         new_head = old_head.next
         if new_head:
+            # new head perv is set to none
             new_head.prev = None
+        # new head becomes head
             self.head = new_head
         else:
+            # Head and tail are set to none and length is decremented
             self.head, self.tail = None, None
         self.length -= 1
         return old_head.value
@@ -115,14 +120,20 @@ class DoublyLinkedList:
     """
 
     def remove_from_tail(self):
+        # old tail is tail
         old_tail = self.tail
+        # if old tail is none
         if old_tail == None:
             return None
+        # New tails becomes old tail's prev
         new_tail = old_tail.prev
         if new_tail:
+            # New tail next is none
             new_tail.next = None
+            # new tail become tail
             self.tail = new_tail
         else:
+            # head and tail are set to none and length is decremented
             self.head, self.tail = None, None
         self.length -= 1
         return old_tail.value
@@ -133,12 +144,17 @@ class DoublyLinkedList:
     """
 
     def move_to_front(self, node):
+        # Delete method
         self.delete(node)
-        temp = self.head
+        # node we are moving becomes head
+        new_node = self.head
         self.head = node
-        self.head.next = temp
+        # head's next becomes
+        self.head.next = new_node
+        # head's prev is set to none
         self.head.prev = None
-        temp.prev = self.head
+        # new node's prev becomes new head
+        new_node.prev = self.head
         self.length += 1
 
     """
@@ -147,10 +163,15 @@ class DoublyLinkedList:
     """
 
     def move_to_end(self, node):
+        # Delete method
         self.delete(node)
+        # node we want to move becomes tail's next
         self.tail.next = node
+        # nodes prev is tail
         node.prev = self.tail
+        # node's next is set to none
         node.next = None
+        # node we moved becomes tail
         self.tail = node
         self.length += 1
 
