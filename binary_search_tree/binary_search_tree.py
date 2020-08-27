@@ -1,7 +1,7 @@
 """
-Binary search trees are a data structure that enforce an ordering over 
-the data they store. That ordering in turn makes it a lot more efficient 
-at searching for a particular piece of data in the tree. 
+Binary search trees are a data structure that enforce an ordering over
+the data they store. That ordering in turn makes it a lot more efficient
+at searching for a particular piece of data in the tree.
 This part of the project comprises two days:
 1. Implement the methods `insert`, `contains`, `get_max`, and `for_each`
    on the BSTNode class.
@@ -49,37 +49,59 @@ class BSTNode:
     # False if it does not
 
     def contains(self, target):
-        pass
-        # Contains:
-        # Compare target value to node.value
-        # If target == node.value:
-        # return True
-        # If target > node.value:
-        # Go right
-        # If node.right is None:
-        # We've traversed the tree and haven't found it
-        # return False
-        # Else:
-        # Do the same thing
-        # return node.right.contains(target)
-        # Else if target < node.value
-        # Go Left
-        # If node.left is None:
-        # return False
-        # Else:
-        # Do the same thing
-        # (compare, go left or right)
-        # return node.left.contains(target)
-    # Return the maximum value found in the tree
+        node = self
+
+        def search(node, target):
+            # If root is none there are no values
+            if node == None:
+                return False
+            # Checks if vlaue matches target
+            if node.value == target:
+                return True
+            # If root is larger then return the result of the the left sub-tree
+            elif target < node.value:
+                return search(node.left, target)
+            # Else if root is smaller then return the result of the the right sub-tree
+
+            else:
+                return search(node.right, target)
+
+        return search(node, target)
 
     def get_max(self):
         # the node with the maximum value will also be the right-most node
-        pass
+        if self.right is None:
+            # Base Case
+            # We're already at the right most node
+            return self.value
+        else:
+            # Recursive case: make the problem smaller to get to the base case
+            # Go right
+            return self.right.get_max()
+        # iterate get_max():
+        # start at the root (self)
+        cur_node = self
+        # keep going right until you can't anymore
+        # --> stop when cur_node.right is None
+        while cur_node.right is not None:
+            # move closer to the "base case"
+            cur_node = cur_node.right
+        # return
+        # "base case"
+        return cur_node.value
     # Call the function `fn` on the value of each node
 
     def for_each(self, fn):
         # Will have to look at both branches
-        pass
+        # Start at the root
+        fn(self.value)
+        if self.left is not None:
+            # Go left
+            self.left.for_each(fn)
+        if self.right is not None:
+            # Go right
+            self.right.for_each(fn)
+
     # Part 2 -----------------------
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
@@ -111,23 +133,23 @@ class BSTNode:
 """
 This code is necessary for testing the `print` methods
 """
-bst = BSTNode(1)  # This is our de facto "root"
-#
-# bst.insert(8)
-# bst.insert(5)
-# bst.insert(7)
-# bst.insert(6)
-# bst.insert(3)
-# bst.insert(4)
-# bst.insert(2)
-#
-# bst.bft_print()
-# bst.dft_print()
-#
+bst = BSTNode(1)
+
+bst.insert(8)
+bst.insert(5)
+bst.insert(7)
+bst.insert(6)
+bst.insert(3)
+bst.insert(4)
+bst.insert(2)
+
+bst.bft_print()
+bst.dft_print()
+
 # print("elegant methods")
 # print("pre order")
 # bst.pre_order_dft()
-# print("in order")
-# bst.in_order_dft()
+# # print("in order")
+# # bst.in_order_dft()
 # print("post order")
 # bst.post_order_dft()
